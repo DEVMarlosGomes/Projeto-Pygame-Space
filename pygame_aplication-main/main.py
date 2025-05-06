@@ -77,7 +77,7 @@ while rodando:
                 pos_y_golpe += 1
         if tecla[pygame.K_SPACE]:
             triggered = True
-            vel_x_golpe = 1.0005
+            vel_x_golpe = 1.05
 
         # Atualizar posições
         pos_inimigo_x -= 1
@@ -116,3 +116,4 @@ while rodando:
             reset_game()
 
     pygame.display.update()
+ 
