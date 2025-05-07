@@ -1,5 +1,6 @@
 import pygame
 import random
+import sys
 
 pygame.init()
 
@@ -12,6 +13,9 @@ pygame.display.set_caption('My first game in Python')
 # Imagens
 bg = pygame.image.load('pygame_aplication-main/img/tela.jpg')
 bg = pygame.transform.scale(bg, (x, y))
+
+inicio_img = pygame.image.load('pygame_aplication-main/img/Inicio.png')
+inicio_img = pygame.transform.scale(inicio_img, (x, y))
 
 inimigo = pygame.image.load('pygame_aplication-main/img/inimigo.png').convert_alpha()
 inimigo = pygame.transform.scale(inimigo, (55, 55))
@@ -26,13 +30,24 @@ golpe = pygame.transform.scale(golpe, (30, 30))
 heart_img = pygame.image.load('pygame_aplication-main/img/heart.png').convert_alpha()
 heart_img = pygame.transform.scale(heart_img, (40, 40))
 
-# Imagem de Game Over em tela cheia
 game_over_img = pygame.image.load('pygame_aplication-main/img/GameOver.png').convert_alpha()
-game_over_img = pygame.transform.scale(game_over_img, (1280, 720))
+game_over_img = pygame.transform.scale(game_over_img, (x, y))
 
 font = pygame.font.SysFont('font/PixelGameFont.ttf', 50)
 
 # Funções
+def tela_inicio():
+    while True:
+        screen.blit(inicio_img, (0, 0))
+        pygame.display.update()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    return  # Inicia o jogo
+
 def respawn():
     return [1350, random.randint(1, 640)]
 
@@ -59,11 +74,12 @@ def reset_game():
     vidas = 7
     game_over = False
 
-# Estado inicial
+# Início do jogo
+tela_inicio()
 reset_game()
-rodando = True
 
 # Loop principal
+rodando = True
 while rodando:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -72,7 +88,6 @@ while rodando:
     screen.blit(bg, (0, 0))
 
     if not game_over:
-        # Entrada do teclado
         tecla = pygame.key.get_pressed()
         if tecla[pygame.K_UP] and pos_player_y > 1:
             pos_player_y -= 1
@@ -86,28 +101,23 @@ while rodando:
             triggered = True
             vel_x_golpe = 1
 
-        # Atualizar posições
         pos_inimigo_x -= 1
         pos_x_golpe += vel_x_golpe
 
-        # Atualizar rects
         player_rect = playerImg.get_rect(topleft=(pos_player_x, pos_player_y))
         golpe_rect = golpe.get_rect(topleft=(pos_x_golpe, pos_y_golpe))
         inimigo_rect = inimigo.get_rect(topleft=(pos_inimigo_x, pos_inimigo_y))
 
-        # Colisões
         if pos_x_golpe >= 1300:
             pos_x_golpe, pos_y_golpe, triggered, vel_x_golpe = respawn_golpe(pos_player_x, pos_player_y)
 
         if pos_inimigo_x <= 50 or colisions():
             pos_inimigo_x, pos_inimigo_y = respawn()
 
-        # Desenhar tudo
         screen.blit(playerImg, (pos_player_x, pos_player_y))
         screen.blit(golpe, (pos_x_golpe, pos_y_golpe))
         screen.blit(inimigo, (pos_inimigo_x, pos_inimigo_y))
 
-        # Exibir corações de acordo com vidas
         for i in range(vidas):
             screen.blit(heart_img, (50 + i * 45, 50))
 
@@ -115,11 +125,10 @@ while rodando:
             game_over = True
 
     else:
-        # Exibir imagem Game Over em tela cheia
         screen.blit(game_over_img, (0, 0))
-
         tecla = pygame.key.get_pressed()
         if tecla[pygame.K_r]:
+            tela_inicio()
             reset_game()
 
     pygame.display.update()
