@@ -23,6 +23,13 @@ playerImg = pygame.transform.rotate(playerImg, -90)
 golpe = pygame.image.load('pygame_aplication-main/img/golpe.png').convert_alpha()
 golpe = pygame.transform.scale(golpe, (30, 30))
 
+heart_img = pygame.image.load('pygame_aplication-main/img/heart.png').convert_alpha()
+heart_img = pygame.transform.scale(heart_img, (40, 40))
+
+# Imagem de Game Over em tela cheia
+game_over_img = pygame.image.load('pygame_aplication-main/img/GameOver.png').convert_alpha()
+game_over_img = pygame.transform.scale(game_over_img, (1280, 720))
+
 font = pygame.font.SysFont('font/PixelGameFont.ttf', 50)
 
 # Funções
@@ -49,7 +56,7 @@ def reset_game():
     pos_inimigo_x, pos_inimigo_y = respawn()
     pos_player_x, pos_player_y = 200, 300
     pos_x_golpe, pos_y_golpe, triggered, vel_x_golpe = respawn_golpe(pos_player_x, pos_player_y)
-    vidas = 10
+    vidas = 7
     game_over = False
 
 # Estado inicial
@@ -77,7 +84,7 @@ while rodando:
                 pos_y_golpe += 1
         if tecla[pygame.K_SPACE]:
             triggered = True
-            vel_x_golpe = 1.05
+            vel_x_golpe = 1
 
         # Atualizar posições
         pos_inimigo_x -= 1
@@ -100,20 +107,19 @@ while rodando:
         screen.blit(golpe, (pos_x_golpe, pos_y_golpe))
         screen.blit(inimigo, (pos_inimigo_x, pos_inimigo_y))
 
-        vidas_txt = font.render(f'Vidas: {vidas}', True, (255, 255, 255))
-        screen.blit(vidas_txt, (50, 50))
+        # Exibir corações de acordo com vidas
+        for i in range(vidas):
+            screen.blit(heart_img, (50 + i * 45, 50))
 
         if vidas <= 0:
             game_over = True
 
     else:
-        # Tela de Game Over
-        game_over_text = font.render("GAME OVER - Pressione R para Reiniciar", True, (255, 0, 0))
-        screen.blit(game_over_text, (300, 350))
+        # Exibir imagem Game Over em tela cheia
+        screen.blit(game_over_img, (0, 0))
 
         tecla = pygame.key.get_pressed()
         if tecla[pygame.K_r]:
             reset_game()
 
     pygame.display.update()
- 
