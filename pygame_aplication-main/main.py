@@ -33,7 +33,9 @@ heart_img = pygame.transform.scale(heart_img, (40, 40))
 game_over_img = pygame.image.load('pygame_aplication-main/img/GameOver.png').convert_alpha()
 game_over_img = pygame.transform.scale(game_over_img, (x, y))
 
-font = pygame.font.SysFont('font/PixelGameFont.ttf', 50)
+# Fonte
+fonte = pygame.font.SysFont('font/PixelGameFont.ttf', 50)
+fonte_pontos = pygame.font.SysFont('Arial', 32)
 
 # Funções
 def tela_inicio():
@@ -55,23 +57,25 @@ def respawn_golpe(pos_x, pos_y):
     return [pos_x, pos_y, False, 0]
 
 def colisions():
-    global vidas
+    global vidas, pontos
     if player_rect.colliderect(inimigo_rect) or inimigo_rect.x <= 60:
         vidas -= 1
         return True
     elif golpe_rect.colliderect(inimigo_rect):
+        pontos += 1  # Ganha ponto ao destruir inimigo com golpe
         return True
     return False
 
 def reset_game():
     global pos_inimigo_x, pos_inimigo_y, pos_player_x, pos_player_y
     global pos_x_golpe, pos_y_golpe, triggered, vel_x_golpe
-    global vidas, game_over
+    global vidas, game_over, pontos
 
     pos_inimigo_x, pos_inimigo_y = respawn()
     pos_player_x, pos_player_y = 200, 300
     pos_x_golpe, pos_y_golpe, triggered, vel_x_golpe = respawn_golpe(pos_player_x, pos_player_y)
     vidas = 7
+    pontos = 0
     game_over = False
 
 # Início do jogo
@@ -118,8 +122,13 @@ while rodando:
         screen.blit(golpe, (pos_x_golpe, pos_y_golpe))
         screen.blit(inimigo, (pos_inimigo_x, pos_inimigo_y))
 
+        # Corações (vidas)
         for i in range(vidas):
             screen.blit(heart_img, (50 + i * 45, 50))
+
+        # Pontuação (no canto superior direito)
+        pontos_txt = fonte_pontos.render(f'Pontos: {pontos}', True, (255, 255, 255))
+        screen.blit(pontos_txt, (x - pontos_txt.get_width() - 20, 20))
 
         if vidas <= 0:
             game_over = True
