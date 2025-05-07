@@ -16,9 +16,9 @@ bg = pygame.transform.scale(bg, (x, y))
 inimigo = pygame.image.load('pygame_aplication-main/img/inimigo.png').convert_alpha()
 inimigo = pygame.transform.scale(inimigo, (55, 55))
 
-playerImg = pygame.image.load('pygame_aplication-main/img/player.png').convert_alpha()
-playerImg = pygame.transform.scale(playerImg, (65, 65))
-playerImg = pygame.transform.rotate(playerImg, -90)
+playerImg = pygame.image.load('pygame_aplication-main/img/FOGUETE.png').convert_alpha()
+playerImg = pygame.transform.scale(playerImg, (95, 95))
+playerImg = pygame.transform.rotate(playerImg, 0)
 
 golpe = pygame.image.load('pygame_aplication-main/img/golpe.png').convert_alpha()
 golpe = pygame.transform.scale(golpe, (30, 30))
