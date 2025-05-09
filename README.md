@@ -62,3 +62,12 @@ Editar
 python main.py
 👨‍💻 Equipe e Colaboração
 Este projeto foi desenvolvido em equipe, aplicando práticas ágeis com Scrum para planejamento, organização e entrega contínua. Um ótimo exercício de colaboração, aprendizado e diversão! 🚀💡
+
+
+👥 Equipe: Marlos Gomes – Product Owner
+
+Leonardo Silva – Scrum Master
+
+Leticia Rosa – Dev & Scrum Master
+
+Juan – Desenvolvedor
