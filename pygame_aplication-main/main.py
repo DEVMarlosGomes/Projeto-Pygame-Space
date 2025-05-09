@@ -141,7 +141,7 @@ def reset_game():
     tempo_nivel = pygame.time.get_ticks()
     ultimo_tiro = 0
     tempo_recarga = 400
-    boss_vida = 5
+    boss_vida = 2
     boss_apareceu = False
     inimigos_extra = []
 
@@ -154,6 +154,30 @@ def reset_game():
     elif dificuldade == 3:
         vidas = 5
         vel_inimigo = 1.5
+
+def show_credits_screen():
+    scroll_y = y
+    credit_bg = pygame.image.load('pygame_aplication-main/img/TelaCréditos.png')
+    credit_bg = pygame.transform.scale(credit_bg, (x, y))
+
+    credit_lines = [
+        "Marlos Gomes (P.O)",
+        "Leonardo Silva (Scrum Master)",
+        "Leticia Rosa (DEV & Scrum Master)",
+        "Juan (DEV)"
+    ]
+
+    while scroll_y > -len(credit_lines) * 60:
+        screen.blit(credit_bg, (0, 0))
+        for i, line in enumerate(credit_lines):
+            text = fonte.render(line, True, (255, 255, 255))
+            screen.blit(text, (x // 2 - text.get_width() // 2, scroll_y + i * 60))
+
+        pygame.display.flip()
+        pygame.time.wait(50)
+        scroll_y -= 2
+
+    pygame.time.wait(3000)  # Espera 3 segundos após os créditos
 
 # Início do jogo
 tela_inicio()
@@ -176,7 +200,7 @@ while rodando:
 
     tempo_atual = pygame.time.get_ticks()
 
-    if pontos >= nivel * 10 and nivel < 6:
+    if pontos >= nivel * 2 and nivel < 6:
         nivel += 1
         vidas = 7
         mostrar_nivel = True
@@ -242,7 +266,7 @@ while rodando:
                 pos_x_golpe, pos_y_golpe, triggered, vel_x_golpe = respawn_golpe(pos_player_x, pos_player_y)
 
             barra_total = 300
-            barra_atual = int(barra_total * (boss_vida / 5))
+            barra_atual = int(barra_total * (boss_vida / 2))
             barra_x = x - barra_total - 50
             barra_y = 50
             pygame.draw.rect(screen, (255, 0, 0), (barra_x, barra_y, barra_total, 20))
@@ -252,7 +276,8 @@ while rodando:
                 vitoria_text = fonte.render('VOCÊ VENCEU!', True, (255, 255, 0))
                 screen.blit(vitoria_text, ((x - vitoria_text.get_width()) // 2, y // 2))
                 pygame.display.update()
-                pygame.time.delay(5000)
+                pygame.time.delay(3000)
+                show_credits_screen()
                 tela_inicio()
                 dificuldade = selecionar_nivel()
                 nivel = 1
@@ -295,8 +320,10 @@ while rodando:
             else:
                 mostrar_nivel = False
 
-                if vidas <= 0:
-                    game_over = True
+        if vidas <= 0:
+            game_over = True
+
+        
 
     else:
         screen.blit(game_over_img, (0, 0))
