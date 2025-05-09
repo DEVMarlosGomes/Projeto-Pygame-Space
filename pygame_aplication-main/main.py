@@ -56,8 +56,8 @@ fonte_pontos = pygame.font.SysFont('font/PixelGameFont.ttf', 32)
 
 # Nomes personalizados das fases
 nomes_fases = {
-    1: "MAR-4398",
-    2: "XEN-2901",
+    1: "XEN-2901",
+    2: "MAR-4398",
     3: "ULR-0991",
     4: "ZET-8892",
     5: "TOR-3922",
@@ -112,8 +112,8 @@ def selecionar_nivel():
 def respawn():
     return [1350, random.randint(1, 640)]
 
-def respawn_golpe(pos_x, pos_y):
-    return [pos_x, pos_y, False, 2.0]
+def respawn_golpe(pos_x, pos_y, velocidade=2.0):
+    return [pos_x, pos_y, False, velocidade]
 
 def colisions():
     global vidas, pontos
@@ -128,42 +128,38 @@ def colisions():
 def reset_game():
     global pos_inimigo_x, pos_inimigo_y, pos_player_x, pos_player_y
     global pos_x_golpe, pos_y_golpe, triggered, vel_x_golpe
-    global vidas, game_over, pontos, vel_inimigo, mostrar_nivel
+    global vidas, game_over, vel_inimigo, mostrar_nivel
     global ultimo_tiro, tempo_recarga, tempo_nivel
     global boss_vida, boss_apareceu, inimigos_extra
 
     pos_inimigo_x, pos_inimigo_y = respawn()
     pos_player_x, pos_player_y = 200, 300
-    pos_x_golpe, pos_y_golpe, triggered, vel_x_golpe = respawn_golpe(pos_player_x, pos_player_y)
-    vidas = 100
-    pontos = 0
+    vel_tiro = 4.0 if nivel == 6 else 2.0
+    pos_x_golpe, pos_y_golpe, triggered, vel_x_golpe = respawn_golpe(pos_player_x, pos_player_y, vel_tiro)
     game_over = False
     mostrar_nivel = True
     tempo_nivel = pygame.time.get_ticks()
     ultimo_tiro = 0
     tempo_recarga = 400
-
-    boss_vida = 20
+    boss_vida = 5
     boss_apareceu = False
     inimigos_extra = []
 
-    if nivel == 1:
-        vel_inimigo = 0.5
-    elif nivel == 2:
+    if dificuldade == 1:
+        vidas = 10
         vel_inimigo = 1.0
-    elif nivel == 3:
-        vel_inimigo = 0.5
-    elif nivel == 4:
-        vel_inimigo = 0.5
-    elif nivel == 5:
-        vel_inimigo = 0.5
-    elif nivel == 6:
-        vel_inimigo = 1.0
-
+    elif dificuldade == 2:
+        vidas = 7
+        vel_inimigo = 1.2
+    elif dificuldade == 3:
+        vidas = 5
+        vel_inimigo = 1.5
 
 # Início do jogo
 tela_inicio()
-nivel = selecionar_nivel()
+dificuldade = selecionar_nivel()
+nivel = 1
+pontos = 0
 reset_game()
 
 # Variáveis gerais
@@ -182,11 +178,10 @@ while rodando:
 
     if pontos >= nivel * 10 and nivel < 6:
         nivel += 1
-        if nivel < 6:
-            vel_inimigo += 0.3
         vidas = 7
         mostrar_nivel = True
         tempo_nivel = tempo_atual
+        reset_game()
 
     if pontos > recorde:
         recorde = pontos
@@ -211,12 +206,9 @@ while rodando:
 
         if (tecla[pygame.K_UP] or tecla[pygame.K_w]) and pos_player_y > 1:
             pos_player_y -= 1
-            if not triggered:
-                pos_y_golpe -= 1
+
         if (tecla[pygame.K_DOWN] or tecla[pygame.K_s]) and pos_player_y < 665:
             pos_player_y += 1
-            if not triggered:
-                pos_y_golpe += 1
 
         if (tecla[pygame.K_SPACE] or mouse_click[0]) and not triggered and tempo_atual - ultimo_tiro >= tempo_recarga:
             triggered = True
@@ -235,7 +227,6 @@ while rodando:
                 boss_vida -= 1
             pos_x_golpe, pos_y_golpe, triggered, vel_x_golpe = respawn_golpe(pos_player_x, pos_player_y)
 
-
         if pos_inimigo_x <= 50 or colisions():
             pos_inimigo_x, pos_inimigo_y = respawn()
 
@@ -251,7 +242,7 @@ while rodando:
                 pos_x_golpe, pos_y_golpe, triggered, vel_x_golpe = respawn_golpe(pos_player_x, pos_player_y)
 
             barra_total = 300
-            barra_atual = int(barra_total * (boss_vida / 20))
+            barra_atual = int(barra_total * (boss_vida / 5))
             barra_x = x - barra_total - 50
             barra_y = 50
             pygame.draw.rect(screen, (255, 0, 0), (barra_x, barra_y, barra_total, 20))
@@ -263,7 +254,8 @@ while rodando:
                 pygame.display.update()
                 pygame.time.delay(5000)
                 tela_inicio()
-                nivel = selecionar_nivel()
+                dificuldade = selecionar_nivel()
+                nivel = 1
                 reset_game()
 
             if tempo_atual - spawn_timer > spawn_delay:
@@ -295,7 +287,6 @@ while rodando:
         recorde_txt = fonte_pontos.render(f'High Score: {recorde}', True, (255, 255, 0))
         screen.blit(recorde_txt, ((x - recorde_txt.get_width()) // 2, pontos_txt.get_height() + 30))
 
-        # Mostrar nome da fase no centro da tela
         if mostrar_nivel:
             if tempo_atual - tempo_nivel < 2000:
                 nome_fase = nomes_fases.get(nivel, f"FASE {nivel}")
@@ -312,7 +303,8 @@ while rodando:
         tecla = pygame.key.get_pressed()
         if tecla[pygame.K_r]:
             tela_inicio()
-            nivel = selecionar_nivel()
+            dificuldade = selecionar_nivel()
+            nivel = 1
             reset_game()
 
     pygame.display.update()
