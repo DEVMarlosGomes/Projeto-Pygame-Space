@@ -1,4 +1,6 @@
-🚀 Space Blaster - Jogo com Pygame
+##🚀 Space Blaster - Jogo com Pygame
+
+
 Bem-vindo ao Space Blaster, um jogo arcade empolgante inspirado nos clássicos como Space Invaders! Criado com Python e Pygame, este projeto foi desenvolvido em equipe com metodologia Scrum, focando em programação, lógica e criatividade 👾✨
 
 🧠 Sobre o Projeto
