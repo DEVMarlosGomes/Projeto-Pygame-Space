@@ -5,8 +5,8 @@ import sys
 pygame.init()
 
 # Tela
-x = 1080
-y = 720
+x = 1920
+y = 1080
 screen = pygame.display.set_mode((x, y))
 pygame.display.set_caption('My first game in Python')
 
@@ -53,6 +53,16 @@ boss_img = pygame.transform.scale(boss_img, (200, 200))
 # Fonte
 fonte = pygame.font.SysFont('font/PixelGameFont.ttf', 50)
 fonte_pontos = pygame.font.SysFont('font/PixelGameFont.ttf', 32)
+
+# Nomes personalizados das fases
+nomes_fases = {
+    1: "MAR-4398",
+    2: "XEN-2901",
+    3: "ULR-0991",
+    4: "ZET-8892",
+    5: "TOR-3922",
+    6: "BOSS"
+}
 
 def tela_inicio():
     while True:
@@ -147,6 +157,9 @@ def reset_game():
         vel_inimigo = 0.5
     elif nivel == 5:
         vel_inimigo = 0.5
+    elif nivel == 6:
+        vel_inimigo = 1.0
+
 
 # Início do jogo
 tela_inicio()
@@ -218,7 +231,10 @@ while rodando:
         inimigo_rect = inimigo.get_rect(topleft=(pos_inimigo_x, pos_inimigo_y))
 
         if pos_x_golpe >= 1300:
+            if boss_apareceu:
+                boss_vida -= 1
             pos_x_golpe, pos_y_golpe, triggered, vel_x_golpe = respawn_golpe(pos_player_x, pos_player_y)
+
 
         if pos_inimigo_x <= 50 or colisions():
             pos_inimigo_x, pos_inimigo_y = respawn()
@@ -229,7 +245,6 @@ while rodando:
 
         if boss_apareceu:
             boss_rect = boss_img.get_rect(topleft=(1650, 400))
-            screen.blit(boss_img, boss_rect)
             if golpe_rect.colliderect(boss_rect) and triggered:
                 boss_vida -= 1
                 triggered = False
@@ -237,8 +252,10 @@ while rodando:
 
             barra_total = 300
             barra_atual = int(barra_total * (boss_vida / 20))
-            pygame.draw.rect(screen, (255, 0, 0), (boss_rect.x, boss_rect.y - 20, barra_total, 20))
-            pygame.draw.rect(screen, (0, 255, 0), (boss_rect.x, boss_rect.y - 20, barra_atual, 20))
+            barra_x = x - barra_total - 50
+            barra_y = 50
+            pygame.draw.rect(screen, (255, 0, 0), (barra_x, barra_y, barra_total, 20))
+            pygame.draw.rect(screen, (0, 255, 0), (barra_x, barra_y, barra_atual, 20))
 
             if boss_vida <= 0:
                 vitoria_text = fonte.render('VOCÊ VENCEU!', True, (255, 255, 0))
@@ -278,15 +295,17 @@ while rodando:
         recorde_txt = fonte_pontos.render(f'High Score: {recorde}', True, (255, 255, 0))
         screen.blit(recorde_txt, ((x - recorde_txt.get_width()) // 2, pontos_txt.get_height() + 30))
 
+        # Mostrar nome da fase no centro da tela
         if mostrar_nivel:
             if tempo_atual - tempo_nivel < 2000:
-                texto_nivel = fonte.render(f'Level {nivel}', True, (255, 255, 0))
+                nome_fase = nomes_fases.get(nivel, f"FASE {nivel}")
+                texto_nivel = fonte.render(nome_fase, True, (255, 255, 0))
                 screen.blit(texto_nivel, ((x - texto_nivel.get_width()) // 2, (y - texto_nivel.get_height()) // 2))
             else:
                 mostrar_nivel = False
 
-        if vidas <= 0:
-            game_over = True
+                if vidas <= 0:
+                    game_over = True
 
     else:
         screen.blit(game_over_img, (0, 0))
