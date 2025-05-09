@@ -1,54 +1,62 @@
-# 🎮 **Projeto: Space Blaster - Jogo com Pygame**
+🚀 Space Blaster - Jogo com Pygame
+Bem-vindo ao Space Blaster, um jogo arcade empolgante inspirado nos clássicos como Space Invaders! Criado com Python e Pygame, este projeto foi desenvolvido em equipe com metodologia Scrum, focando em programação, lógica e criatividade 👾✨
 
-## 🧠 **Contexto do Projeto**
+🧠 Sobre o Projeto
+Controle uma nave espacial 🚀, atire mísseis 💥 e destrua os alienígenas invasores 👽!
+A cada inimigo derrotado, a pontuação aumenta — e o desafio também! 🎯
 
-Desenvolvemos um jogo arcade inspirado em clássicos como *Space Invaders*, com o objetivo de praticar lógica de programação, manipulação gráfica e trabalho em equipe usando o **Scrum**.
+🎯 Objetivos do Projeto
+✅ Desenvolver um jogo funcional e divertido usando Python + Pygame
 
-> O jogador controla uma nave e precisa destruir os aliens inimigos. Cada alien destruído aumenta a pontuação — e também a dificuldade do jogo.
-> 
+🤝 Trabalhar em colaboração com a equipe usando o Scrum
 
----
+🧩 Praticar lógica de programação e criatividade
 
-## 🎯 **Objetivos**
+🎨 Aprimorar habilidades com gráficos e animações em Pygame
 
-- ✅ Criar um jogo funcional e divertido usando **Python + Pygame**.
-- ✅ Trabalhar com **colaboração em equipe** e divisão de tarefas.
-- ✅ Utilizar **Scrum** para planejar e organizar o desenvolvimento.
-- ✅ Desenvolver habilidades em **programação, lógica e criatividade**.
+🕹️ Funcionalidades do Jogo
+🚀 Controle total da nave pelo jogador
 
-Sobre o Projeto
+💣 Disparo de mísseis para eliminar os alienígenas
 
-Este é um jogo desenvolvido em Python utilizando a biblioteca Pygame. O jogo tem uma temática espacial, onde o jogador controla um foguete que precisa atirar mísseis nos alienígenas que aparecem de forma aleatória na tela.
+👾 Inimigos surgem de forma aleatória na tela
 
-Funcionalidades
+🎆 Gráficos e animações com a biblioteca Pygame
 
-Controle do foguete pelo jogador.
+🎮 Progressão de dificuldade conforme a pontuação aumenta
 
-Disparo de mísseis para eliminar os aliens.
+🛠️ Tecnologias Utilizadas
+🐍 Python
 
-Inimigos surgem de forma aleatória.
+🎮 Pygame
 
-Gráficos e animações criados com a biblioteca Pygame.
+💻 Como Executar o Jogo
+✅ Certifique-se de ter o Python instalado:
+https://www.python.org/downloads/
 
-Tecnologias Utilizadas
+📦 Instale a biblioteca Pygame (caso ainda não tenha):
 
-Python
-
-Pygame
-
-Como Executar
-
-Certifique-se de ter o Python instalado em sua máquina.
-
-Instale a biblioteca Pygame caso ainda não tenha:
-
+bash
+Copiar
+Editar
 pip install pygame
+📁 Clone este repositório:
 
-Clone este repositório:
+bash
+Copiar
+Editar
 git clone https://github.com/letsrosa/pygame_aplication.git
+📂 Acesse a pasta do projeto:
 
-Acesse a pasta do projeto:
+bash
+Copiar
+Editar
 cd pygame_aplication
+▶️ Execute o jogo:
 
-Execute o jogo:
+bash
+Copiar
+Editar
 python main.py
+👨‍💻 Equipe e Colaboração
+Este projeto foi desenvolvido em equipe, aplicando práticas ágeis com Scrum para planejamento, organização e entrega contínua. Um ótimo exercício de colaboração, aprendizado e diversão! 🚀💡
