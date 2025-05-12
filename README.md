@@ -63,6 +63,8 @@ python main.py
 👨‍💻 Equipe e Colaboração
 Este projeto foi desenvolvido em equipe, aplicando práticas ágeis com Scrum para planejamento, organização e entrega contínua. Um ótimo exercício de colaboração, aprendizado e diversão! 🚀💡
 
+Notion: https://abstracted-philosophy-728.notion.site/Projeto-Space-Blaster-Quiz-Jogos-com-Pygame-1eaa06f1485a800a9c05c33016fb5a60
+
 
 👥 Equipe: Marlos Gomes – Product Owner
 
