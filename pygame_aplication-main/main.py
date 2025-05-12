@@ -134,7 +134,7 @@ def reset_game():
 
     pos_inimigo_x, pos_inimigo_y = respawn()
     pos_player_x, pos_player_y = 200, 300
-    vel_tiro = 4.0 if nivel == 6 else 2.0
+    vel_tiro = 2.0
     pos_x_golpe, pos_y_golpe, triggered, vel_x_golpe = respawn_golpe(pos_player_x, pos_player_y, vel_tiro)
     game_over = False
     mostrar_nivel = True
@@ -173,6 +173,10 @@ def show_credits_screen():
             text = fonte.render(line, True, (255, 255, 255))
             screen.blit(text, (x // 2 - text.get_width() // 2, scroll_y + i * 60))
 
+        if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
         pygame.display.flip()
         pygame.time.wait(50)
         scroll_y -= 2
@@ -202,7 +206,6 @@ while rodando:
 
     if pontos >= nivel * 2 and nivel < 6:
         nivel += 1
-        vidas = 7
         mostrar_nivel = True
         tempo_nivel = tempo_atual
         reset_game()
